@@ -1,38 +1,66 @@
 ﻿using Domain.Entities;
 using Domain.Repository.Contract;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Repository
 {
-    class AuthorRepository : IRepository<Author, int>
+    public class AuthorRepository : IRepository<Author, Guid>
     {
-        public Task<IEnumerable<Author>> Delete(int id)
+        private readonly DbContextOptions<BookManagerDbContext> _options;
+
+        public AuthorRepository(DbContextOptions<BookManagerDbContext> options)
         {
-            throw new NotImplementedException();
+            _options = options;
         }
 
-        public Task<IEnumerable<Author>> GetAll()
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            using (var context = new BookManagerDbContext(_options))
+            {
+                var author = await context.Authors.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (author != null)
+                    context.Remove(author);
+
+                await Save(context);
+            }
         }
 
-        public Task<IEnumerable<Author>> GetById(int id)
+        public async Task<IEnumerable<Author>> GetAll()
         {
-            throw new NotImplementedException();
+            using (var context = new BookManagerDbContext(_options))
+            {
+                var authors = await context.Authors.ToListAsync();
+                return authors;
+            }
         }
 
-        public Task<IEnumerable<Author>> Insert(Author entity)
+        public async Task<Author> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            using (var context = new BookManagerDbContext(_options))
+            {
+                var author = await context.Authors.FirstOrDefaultAsync(x => x.Id == id);
+                return author;
+            }
+
         }
 
-        public Task<IEnumerable<Author>> Save()
+        public async Task<Author> Insert(Author entity)
         {
-            throw new NotImplementedException();
+            using (var context = new BookManagerDbContext(_options))
+            {
+                var author = await context.AddAsync(entity);
+                await Save(context);
+                return author.Entity;
+            }
+        }
+
+        public async Task Save(BookManagerDbContext context)
+        {
+                await context.SaveChangesAsync();
         }
     }
 }
