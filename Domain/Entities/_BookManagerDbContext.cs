@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class BookManagerDbContext
+    public class BookManagerDbContext : DbContext
     {
+        public BookManagerDbContext(DbContextOptions<BookManagerDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Authors { get; set; }
     }
 }
