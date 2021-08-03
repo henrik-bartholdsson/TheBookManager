@@ -6,3 +6,7 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  ImageNAme: 'bartholdsson/cicd-app:$(Build.BuoldId)'
+
