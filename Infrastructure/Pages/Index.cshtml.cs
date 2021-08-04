@@ -14,6 +14,7 @@ namespace Infrastructure.Pages
         private readonly IRepository<Author, Guid> _authorRepository;
         public IEnumerable<Author> authors;
         public string someInfo;
+        public string moreInfo;
 
         public IndexModel(ILogger<IndexModel> logger, IRepository<Author, Guid> authorRepository)
         {
@@ -27,6 +28,7 @@ namespace Infrastructure.Pages
             //service.Add();
             authors = service.GetAll();
             someInfo = "The page works fine! :)";
+            moreInfo = "And this is awsome!";
         }
     }
 }
