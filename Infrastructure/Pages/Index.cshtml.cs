@@ -26,7 +26,7 @@ namespace Infrastructure.Pages
             var service = new BookService(_authorRepository);
             //service.Add();
             authors = service.GetAll();
-            someInfo = "This is some test information";
+            someInfo = "The page works fine! :)";
         }
     }
 }
