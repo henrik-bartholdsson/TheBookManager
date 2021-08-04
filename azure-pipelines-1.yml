@@ -9,6 +9,7 @@ pool:
 
 variables:
   ImageNAme: 'bartholdsson/cicd-app:$(Build.BuildId)'
+  ImageNAme: 'bartholdsson/cicd-app:2021-latest'
 
 stages:
 - stage: Build
