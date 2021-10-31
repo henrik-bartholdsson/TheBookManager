@@ -27,6 +27,21 @@ namespace Infrastructure.Pages
             var service = new BookService(_authorRepository);
             //service.Add();
             authors = service.GetAll();
+
+            var listOfAuthors = new List<Author>();
+
+            foreach(var a in authors)
+            {
+                listOfAuthors.Add(a);
+            }
+
+            if(listOfAuthors.Count < 1)
+            {
+                service.Add();
+                authors = service.GetAll();
+            }
+            
+
             someInfo = "The page works fine! :)";
             moreInfo = "And this is awsome!";
         }
